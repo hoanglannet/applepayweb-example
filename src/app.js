@@ -76,8 +76,6 @@ app.post('/getApplePaySession', function (req, res) {
 	});
 });
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
 app.post('/authComplete', function(req,res) {
 
   // Construct payment request
@@ -97,13 +95,12 @@ app.post('/authComplete', function(req,res) {
       'API-Version': "5.4",
       "content-type": "application/json"
     },
-    'auth': {
+    auth: {
       'user': '<YOUR TOKEN>',
       'pass': '<YOUR SECRET>'
-    }
+    },
+    body: JSON.stringify(paymentRequest)
   };
-
-  options.body = JSON.stringify(paymentRequest)
 
   request.post(options, function (error, response, body) {
     if(error) console.log('Err: ' + JSON.stringify(error));
